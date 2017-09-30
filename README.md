@@ -1,4 +1,1 @@
 # fincalc
-# fincalc
-# fincalc
-# fincalc
