@@ -11,8 +11,12 @@ class UI extends MainFrame {
   val amount = new TextField { columns = 32 }
   val years = new TextField { columns = 32 }
   val interestRate = new TextField { columns = 32 }
-  val button = new Button 
+  val presentV = new RadioButton("Present Value")
+  val futureV = new RadioButton("Future Value") 
+  presentV.selected = true
+  val valueGroup = new ButtonGroup(presentV, futureV)
   val answerSpace = new Label("") 
+  val buttonCalc = new Button("Calculate")
   restrictHeight(amount)
   restrictHeight(years)
   restrictHeight(interestRate)
@@ -35,11 +39,18 @@ class UI extends MainFrame {
     }
     contents += new BoxPanel(Orientation.Horizontal) {
       contents += Swing.HGlue
-      contents += Button("Calculate") { submit() }
+      contents += buttonCalc 
     }
      contents += new BoxPanel(Orientation.Horizontal) {
       contents += Swing.HStrut(5)
       contents += answerSpace
+      contents += Swing.HStrut(10)
+    }
+     contents += new BoxPanel(Orientation.Horizontal) {
+      contents += Swing.HGlue
+      contents += presentV
+      contents += Swing.HStrut(10)
+      contents += futureV
       contents += Swing.HStrut(10)
     }
     for (e <- contents)
@@ -50,6 +61,31 @@ class UI extends MainFrame {
   listenTo(amount)
   listenTo(years)
   listenTo(interestRate)
+  listenTo(presentV)
+  listenTo(futureV)
+  listenTo(buttonCalc)
+  
+  reactions += {
+    case ButtonClicked(buttonCalc) => {
+      if(presentV.selected){
+    val napier = 2.71828
+    val amt = amount.text.toDouble
+    val yrs = years.text.toDouble
+    val rate = interestRate.text.toDouble * .01
+    val answer = {amt * Math.pow(napier, yrs * rate)}
+    println("Answer: $" + answer)
+    answerSpace.text = "Present Value: $" + answer.toString
+      } else {
+    val napier = 2.71828
+    val amt = amount.text.toDouble
+    val yrs = years.text.toDouble
+    val rate = interestRate.text.toDouble * .01
+    val answer = {amt / Math.pow(napier, yrs * rate)}
+    println("Answer: $" + answer)
+    answerSpace.text = "Future Value: $" + answer.toString
+      }
+    }
+  }
   
   private def submit() {
     val napier = 2.71828
