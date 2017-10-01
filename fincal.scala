@@ -86,17 +86,6 @@ class UI extends MainFrame {
       }
     }
   }
-  
-  private def submit() {
-    val napier = 2.71828
-    val amt = amount.text.toDouble
-    val yrs = years.text.toDouble
-    val rate = interestRate.text.toDouble * .01
-    val answer = {amt * Math.pow(napier, yrs * rate)}
-    println("Answer: " + answer)
-    answerSpace.text = "Present Value: " + answer.toString
-  }
-}
 
 object fincal {
   def main(args: Array[String]) {
