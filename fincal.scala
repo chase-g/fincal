@@ -86,6 +86,7 @@ class UI extends MainFrame {
       }
     }
   }
+}
 
 object fincal {
   def main(args: Array[String]) {
